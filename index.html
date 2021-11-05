@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/script.js"></script>
+    <script src="js/modal.js"></script>
+    <link rel="stylesheet" href="css/Estilos.css">
+</head>
+<body>
+    <div id="id_div_tabla"></div>
+    <div id="id_div_modal"></div>
+    <dialog id="id_modal" >
+        <form method="dialog" id="form" >              
+            <div style="display: flex; justify-content: end;">
+                <input type="button" value="X"  class="closeButton" id="id_cerrar_modal"/>
+            </div>
+            <br>
+            <div >
+                <input type="hidden" id="id_id"/> 
+                <div id="divNombre">
+                    <label >Nombre:</label>
+                    <input type="text" id="id_nombre" /> 
+                </div>
+                <br>
+                <div id="divCuatri">
+                    <label >Cuatrimestre:</label>
+                    <select name="cuatrimestre" id="id_cuatri">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div id="divFecha">
+                    <label >Fecha:</label>
+                    <input type="date" id="id_fecha" /> 
+                </div>
+                <br>
+                <div id="divTurno">
+                    <label>Turno:</label>
+                    <input type="radio" name="turno" id="id_Maniana" value="Manana">Manana
+                    <input type="radio" name="turno" id="id_Noche" value="Noche">Noche
+                </div>
+                <br>
+                <br>
+                    <div id="divBtn" class="divBtn">
+                    <input type="button" value="Modificar" class="botonMod" id="btn_modificar" style="display: none;"/> 
+                    <br>
+                    <input type="button" value="Eliminar" class="botonDel" id="btn_delete" style="display: none;"/>                 
+                    </div>
+                </div>
+            </div>
+        </form>
+    </dialog>    
+    <div id="divSpinner" class="spinner" hidden></div> 
+</body>
+</html>
