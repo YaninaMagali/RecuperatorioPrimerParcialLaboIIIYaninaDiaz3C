@@ -37,14 +37,12 @@ function PostModificarMateria(funcionExito, funcionError)
             if(this.readyState == 4 && this.status == 200){
                 document.getElementById("divSpinner").hidden = true;
                 funcionExito(aux);
-                //console.log("OK");
             }
             else if(this.readyState != 4){
                 document.getElementById("divSpinner").hidden = false;
             }
             else if(this.readyState == 4 && this.status != 200){    
                 funcionError(false);
-                //console.log("NOT OK");
             }
         }
         request.open("POST", "http://localhost:3000/editar", true);
@@ -108,10 +106,6 @@ function CrearCabeceraTabla(cabeceraData)
         let lbl = document.createTextNode(cabeceraData[i]);
         col.appendChild(lbl);
         fila.appendChild(col); 
-        if(i == 0)
-        {
-            col.setAttribute("type", "hidden");
-        }
     }
 
     return fila;
@@ -198,8 +192,6 @@ function ValidarFecha()
     var fechaAux = new Date();
     var fechaActual = fechaAux.getFullYear()+'-'+(fechaAux.getMonth()+1)+'-'+fechaAux.getDate();
 
-    console.log(fechaActual);
-    console.log(fechaAValidar.value);
     if(Date.parse(fechaAValidarAux) < Date.parse(fechaActual))
     {
         fechaAValidar.style.borderColor = "red";
@@ -209,12 +201,14 @@ function ValidarFecha()
 }
 
 function GetDataDelForm(){
-    console.log("GetDataDelForm");
+
     var id = document.getElementById("id_id").value;
     var nombre = document.getElementById("id_nombre").value;
     var cuatri  = document.getElementById("id_cuatri").value;
     var fecha = document.getElementById("id_fecha").value;
-    //console.log(fecha);
+    var fechaAux =  fecha.split("-");  
+    var fechaFinal = document.getElementById("id_fecha").value = fechaAux[2] + "/" + fechaAux[1] + "/" + fechaAux[0];
+    
     var turno;
     
     if(document.getElementById("id_Maniana") == "Maniana"){
@@ -224,7 +218,7 @@ function GetDataDelForm(){
         turno = "Noche";
     }
 
-    return {id: id, nombre: nombre, cuatrimestre: cuatri, fechaFinal: fecha, turno: turno};
+    return {id: id, nombre: nombre, cuatrimestre: cuatri, fechaFinal: fechaFinal, turno: turno};
 }
 
 function getMateriasPromise(){
@@ -243,10 +237,9 @@ function RemoverFila(materia){
 
     if (filaActual.parentNode) {
         filaActual.parentNode.removeChild(filaActual);
-        console.log("remuevi");
+        //console.log("remuevi");
       }
 }
-
 
 function PostModificarPromise(){
     promise = new Promise(PostModificarMateria);

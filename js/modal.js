@@ -9,7 +9,7 @@ function MostrarModal(materia) {
         document.getElementById("id_nombre").value = materia.nombre;
         var fechaAux =  materia.fechaFinal.split("/");  
         document.getElementById("id_fecha").value = fechaAux[2] + "-" + fechaAux[1] + "-" + fechaAux[0];
-        console.log(fechaAux[2] + "-" + fechaAux[1] + "-" + fechaAux[0]);
+        
         document.getElementById("id_cuatri").disabled = true;
         if (materia.turno == "Manana") {
             document.getElementById("id_Maniana").checked = true;
@@ -23,7 +23,7 @@ function MostrarModal(materia) {
         modificarBtn.addEventListener("click", (e)=>{
             PostModificarPromise();
         });
-        
+
         delBtn.addEventListener("click", (e)=>{
             deletePromise();
         });
