@@ -27,7 +27,8 @@ function PostModificarMateria(funcionExito, funcionError)
     if(aux != null 
         && ValidarNombre(aux.nombre) 
         && ValidarTurno()
-        && ValidarFecha()) 
+        && ValidarFecha()
+        ) 
     {
         var request = new XMLHttpRequest();
 
@@ -50,6 +51,33 @@ function PostModificarMateria(funcionExito, funcionError)
         request.setRequestHeader('Content-type', 'application/json');
         request.send(JSON.stringify(aux));
 }}
+
+function deletePost(funcionExito, funcionError){
+
+    var aux = GetDataDelForm();
+
+    if(aux != null){
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = function()
+        {
+            console.log(this.readyState);
+            if(this.readyState == 4 && this.status == 200){
+                document.getElementById("divSpinner").hidden = true;
+                funcionExito(aux);
+            }
+            else if(this.readyState != 4){
+                document.getElementById("divSpinner").hidden = false;
+            }
+            else if(this.readyState == 4 && this.status != 200){    
+                funcionError(false);
+            }
+        }
+        request.open("POST", "http://localhost:3000/eliminar", true);
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send(JSON.stringify(aux));
+    }
+}
 
 function CrearTabla(idTabla, cabeceraParams) 
 {
@@ -165,13 +193,14 @@ function ValidarFecha()
 {
     var validacion = true;
     var fechaAValidar = document.getElementById('id_fecha');
+    var fechaAValidarAux = new Date(fechaAValidar.value);
 
     var fechaAux = new Date();
     var fechaActual = fechaAux.getFullYear()+'-'+(fechaAux.getMonth()+1)+'-'+fechaAux.getDate();
 
     console.log(fechaActual);
     console.log(fechaAValidar.value);
-    if(fechaAValidar.value < fechaActual)
+    if(Date.parse(fechaAValidarAux) < Date.parse(fechaActual))
     {
         fechaAValidar.style.borderColor = "red";
         validacion = false;
@@ -180,10 +209,12 @@ function ValidarFecha()
 }
 
 function GetDataDelForm(){
+    console.log("GetDataDelForm");
     var id = document.getElementById("id_id").value;
     var nombre = document.getElementById("id_nombre").value;
     var cuatri  = document.getElementById("id_cuatri").value;
     var fecha = document.getElementById("id_fecha").value;
+    //console.log(fecha);
     var turno;
     
     if(document.getElementById("id_Maniana") == "Maniana"){
@@ -207,11 +238,25 @@ function ReemplazarFila(materia) {
     filaActual.replaceWith(filaAux);
 }
 
+function RemoverFila(materia){
+    var filaActual = document.getElementById("id_fila"+materia.id);
+
+    if (filaActual.parentNode) {
+        filaActual.parentNode.removeChild(filaActual);
+        console.log("remuevi");
+      }
+}
+
+
 function PostModificarPromise(){
     promise = new Promise(PostModificarMateria);
     promise.then(ReemplazarFila).catch(funcionError);
 }
 
+function deletePromise() {
+    promise = new Promise(deletePost);
+    promise.then(RemoverFila).catch(funcionError);
+}
 
     window.addEventListener("load", function () {
         this.getMateriasPromise();
